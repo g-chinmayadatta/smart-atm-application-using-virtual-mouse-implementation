@@ -1,0 +1,125 @@
+<html>
+    <script>
+        function validate(){
+            let x=document.forms["verifyotp"]["verify_otp"].value;
+            if(x == 0 || x== ''){
+                alert("enter otp");
+                return false;
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="u_otp.css">
+    <body>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+    <section>
+        <div class="form-box" >
+    <form  name ="verifyotp" method="post" action="verify_otp.php" onsubmit="return validate()">
+        <div class="inputbox">
+            <ion-icon name="apps-outline"></ion-icon>
+            <input type="text" name="verify_otp" placeholder="Enter Recent OTP"><br></div>
+       
+            <center><div id="keyboard-container"></div></center>
+            <script>
+                const keys = [
+                  [
+                    ["1", "1"],
+                    ["2", "2"],
+                    ["3", "3"],
+                  ],
+                  [
+                    ["4", "4"],
+                    ["5", "5"],
+                    ["6", "6"],
+                  ],
+                  [
+                    ["7", "7"],
+                    ["8", "8"],
+                    ["9", "9"],
+                  ],
+                  [
+                    ["C", "C"],
+                    ["0", "0"],
+                    ["B","B"]
+                  ],
+                ];
+                
+                let mayus = false;
+                let shift = false; 
+                current = null;
+                
+                renderKeyboard();
+                
+                function renderKeyboard(){
+                    const keyboardContainer = document.querySelector('#keyboard-container');
+                    let empty = `<div class="key-empty"></div>`;
+                
+                    const layers = keys.map((layer) => {
+                        return layer.map(key => {
+                            if (key[0] === 'C'){
+                                return `<button class="key key-clear">${key[0]}</button>`;
+                            }
+                            if(key[0]=='B'){
+                                return `<button class="key key-bspace">${key[0]}</button>`
+                            }
+                
+                            return `
+                                     <button class="key key-normal">
+                                     ${key[0]}
+                                     </button>
+                            
+                            `;
+                        });
+                    });
+                
+                
+                    layers[0].push(empty);
+                    layers[1].unshift(empty);
+                
+                    const htmlLayers = layers.map((layer) => {
+                        return layer.join(""); 
+                    });
+                
+                
+                    keyboardContainer.innerHTML = ""; 
+                
+                    htmlLayers.forEach((layer) => {
+                        keyboardContainer.innerHTML += `<div class="layer">${layer}</div>`;
+                
+                    });
+                
+                    document.querySelectorAll('.key').forEach(key => {
+                        key.addEventListener('click', e => {
+                            if (current) {
+                                if (key.textContent === 'C'){
+                                    current.value = "";
+                                }
+                                else if (key.textContent==='B'){
+                                  current.value = current.value.slice(0, -1);
+                                } 
+                                else {
+                                    current.value += key.textContent.trim();
+                                }
+                                renderKeyboard();
+                                current.focus();
+                            }
+                        });
+                
+                    });
+                }
+                
+                document.querySelectorAll('input').forEach(input => {
+                    input.addEventListener("focusin", e => {
+                        current = e.target;
+                    });
+                });</script><br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button type="submit" name="uotp_verify" class="button">Verify OTP</button>
+
+        
+    </form></div>
+   </section>
+</body>
+    
+</html>

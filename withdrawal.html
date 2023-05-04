@@ -1,0 +1,135 @@
+<html>
+    <head>
+        <script>
+        function validate(){
+            let x=document.forms["uwithdraw"]["uwithdraw_amount"].value;
+            if(x== 0 || x== ''){
+                alert("enter amount to withdraw");
+                return false;
+            }
+            if(x <=0){
+                alert("enter valid amount to be withdrawal should be greater than ZERO");
+                return false;
+            }
+        }
+        function abort(){
+            alert("aborting this transaction");
+            window.location.href="http://127.0.0.1/project/abort.php"
+
+        }
+        </script>
+        <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <link rel="stylesheet" href="withdrawal.css">
+    </head>
+    <body>
+        <section>
+            <div class="form-box">
+                <div class="container"><br><br>
+                    <h1>Enter Amount to Withdraw</h1>
+                <form name="uwithdraw" onsubmit="return validate()" method="post" action="withdrawal.php">
+                    <div class="inputbox">
+                    <ion-icon name="apps-outline"></ion-icon>
+                    <input type="text" name="uwithdraw_amount" placeholder="Rs" id="udeposit_amount"><br>
+                    </div>
+                    <center><div id="keyboard-container"></div><br></center>
+                    <center><button class="button" type="submit" name="uwithdraw">Withdraw</button>
+                        </center>
+                </form>
+                <br><center><button class="button" type="submit" name="abort" onclick="abort()">Abort</button></center>
+                <script>
+                    const keys = [
+                      [
+                        ["1", "1"],
+                        ["2", "2"],
+                        ["3", "3"],
+                      ],
+                      [
+                        ["4", "4"],
+                        ["5", "5"],
+                        ["6", "6"],
+                      ],
+                      [
+                        ["7", "7"],
+                        ["8", "8"],
+                        ["9", "9"],
+                      ],
+                      [
+                        ["C", "C"],
+                        ["0", "0"],
+                        ["B","B"]
+                      ],
+                    ];
+                    
+                    let mayus = false;
+                    let shift = false; 
+                    current = null;
+                    
+                    renderKeyboard();
+                    
+                    function renderKeyboard(){
+                        const keyboardContainer = document.querySelector('#keyboard-container');
+                        let empty = `<div class="key-empty"></div>`;
+                    
+                        const layers = keys.map((layer) => {
+                            return layer.map(key => {
+                                if (key[0] === 'C'){
+                                    return `<button class="key key-clear">${key[0]}</button>`;
+                                }
+                                if(key[0]=='B'){
+                                    return `<button class="key key-bspace">${key[0]}</button>`
+                                }
+                    
+                                return `
+                                         <button class="key key-normal">
+                                         ${key[0]}
+                                         </button>
+                                
+                                `;
+                            });
+                        });
+                    
+                    
+                        layers[0].push(empty);
+                        layers[1].unshift(empty);
+                    
+                        const htmlLayers = layers.map((layer) => {
+                            return layer.join(""); 
+                        });
+                    
+                    
+                        keyboardContainer.innerHTML = ""; 
+                    
+                        htmlLayers.forEach((layer) => {
+                            keyboardContainer.innerHTML += `<div class="layer">${layer}</div>`;
+                    
+                        });
+                    
+                        document.querySelectorAll('.key').forEach(key => {
+                            key.addEventListener('click', e => {
+                                if (current) {
+                                    if (key.textContent === 'C'){
+                                        current.value = "";
+                                    }
+                                    else if (key.textContent==='B'){
+                                      current.value = current.value.slice(0, -1);
+                                    } 
+                                    else {
+                                        current.value += key.textContent.trim();
+                                    }
+                                    renderKeyboard();
+                                    current.focus();
+                                }
+                            });
+                    
+                        });
+                    }
+                    
+                    document.querySelectorAll('input').forEach(input => {
+                        input.addEventListener("focusin", e => {
+                            current = e.target;
+                        });
+                    });</script>
+                </div>
+    </body>
+</html>
