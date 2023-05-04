@@ -10,6 +10,8 @@ Clone this repository to your local machine
 
 Install Xampp and start the Apache and MySQL servers
 
+Clone the php mailer repositry to your desktop using this link https://github.com/PHPMailer/PHPMailer
+
 Open your web browser and navigate to http://localhost//projectfolder/lets_start.html to access the online ATM simulator
 
 At first start the flask and click (using mouse) on the start virtual mouse after the virtal mouse is started (The light on the ATM's camera lights up to indicate that the virtual mouse has started)
